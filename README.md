@@ -9,6 +9,38 @@
 
 ## 快速开始
 
+对于一般用户：
+
+1. 在本地创建一个新的目录：
+
+```bash
+mkdir wechaty_bot
+cd wechaty_bot
+```
+
+2. 在新的目录中创建 `.env` 文件，并设置以下环境变量：
+
+```bash
+curl -o .env https://raw.githubusercontent.com/zzturn/wechaty_bot/master/.env.example
+vim .env
+# 编辑 .env 文件
+```
+
+3. 使用 Docker Compose 启动：
+
+```bash
+docker-compose up
+```
+
+4. 扫描二维码登录微信
+
+```bash
+docker logs -f wechaty_bot
+# 接着会出现一个二维码，使用微信扫描即可登录
+```
+
+对于开发者：
+
 1. 克隆本项目：
 
 ```bash
@@ -16,31 +48,27 @@ git clone https://github.com/zzturn/wechaty_bot.git
 cd wechaty_bot
 ```
 
-2. 安装依赖：
+2. 启动 Selenium 或修改代码中的Selenium配置。
+
+```bash
+# 启动 Selenium
+docker run -d --name selenium_chrome -p 4444:4444 --shm-size 2g selenium/standalone-chrome:4.14.1-20231025
+# 或者修改代码中的Selenium配置
+vim util/get_wechat_article.js # 修改 requestWithSelenium 方法的参数
+```
+
+3. 修改 `.env` 文件中的环境变量。
+
+```bash
+vim .env
+```
+
+4. 安装依赖并启动：
 
 ```bash
 npm install
+npm start
 ```
-
-3. 修改 `.env` 文件，设置以下环境变量：
-
-```bash
-GITHUB_TOKEN=your_github_token **require**
-GITHUB_REPO=your_github_repo **require**
-GITHUB_URL_BASE=your_github_url_base default: https://api.github.com 
-ZHIPUAI_API_KEY=your_zhipuai_api_key **require**
-SELENUIM_SERVER=your_selenium_server_url default: http://selenium_chrome:4444/wd/hub
-PROMPT=your_prompt default: '请帮我总结一下这篇文章'
-```
-
-4. 使用 Docker Compose 启动：
-
-```bash
-docker-compose up
-```
-
-Docker Compose 配置包括两个服务：`selenium_chrome` 和 `wechaty`。`selenium_chrome` 服务使用了 `selenium/standalone-chrome:4.14.1-20231025` 镜像，并开放了 4444 端口，用于爬取网页内容。`wechaty` 服务使用了 `wechaty/wechaty` 镜像，并将本地的代码目录挂载到了容器的 `/bot` 目录。
-
 
 ## 贡献
 
@@ -69,7 +97,9 @@ Docker Compose 配置包括两个服务：`selenium_chrome` 和 `wechaty`。`sel
 
 ## 鸣谢
 
-- [Wechaty](https://github.com/wechaty/wechaty)
 - [Node.js](https://nodejs.org/)
+- [Wechaty](https://github.com/wechaty/wechaty)
+- [Selenium](https://www.selenium.dev/)
+- [智谱 AI](https://www.zhipuai.cn/)
 
 我们期待你的参与，一起让这个项目更好！

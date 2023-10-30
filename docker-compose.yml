@@ -11,7 +11,8 @@ services:
       - "4444:4444"
 
   wechaty:
-    image: wechaty/wechaty
-    command: bot.js
+    image: ghcr.io/zzturn/wechaty_bot:latest
+    container_name: wechaty_bot
     volumes:
-      - .:/bot
+      - ./.env:/bot/.env
+      - ./auohh-test.memory-card.json:/bot/auohh-test.memory-card.json
