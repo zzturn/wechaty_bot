@@ -1,0 +1,17 @@
+version: '3'
+services:
+  selenium_chrome:
+    image: selenium/standalone-chrome:4.14.1-20231025
+    restart: always
+    container_name: selenium_chrome
+    shm_size: 2g
+    environment:
+      - SE_NODE_MAX_SESSIONS=4
+    ports:
+      - "4444:4444"
+
+  wechaty:
+    image: wechaty/wechaty
+    command: bot.js
+    volumes:
+      - .:/bot
